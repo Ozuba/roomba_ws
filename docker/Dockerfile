@@ -82,6 +82,15 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
 
 
 # ============================================================
+# DOCS TOOLCHAIN (Sphinx, same list Read the Docs installs)
+# ============================================================
+COPY docs/requirements.txt /tmp/docs-requirements.txt
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip3 install -r /tmp/docs-requirements.txt \
+ && rm /tmp/docs-requirements.txt
+
+
+# ============================================================
 # SHELL CONFIGURATION
 # ============================================================
 USER $USERNAME

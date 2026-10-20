@@ -30,9 +30,11 @@ rviz2 -d src/roomba_rclgd/rviz/roomba.rviz                  # and watch it in RV
 ros2 rclgd editor roomba_rclgd_starter                      # start the workshop
 ```
 
-Then follow the tutorial in `docs/`. To build it locally:
+Then follow the tutorial in `docs/`. The container already has the Sphinx toolchain, so to
+build it locally:
 
 ```bash
-pip install -r docs/requirements.txt
-sphinx-build -b html docs docs/_build/html
+make -C docs html                                           # open docs/_build/html/index.html
 ```
+
+Outside the container, run `pip install -r docs/requirements.txt` first.

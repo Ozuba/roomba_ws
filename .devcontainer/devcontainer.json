@@ -1,7 +1,7 @@
 {
   "name": "rclgd Development Workspace",
   "build": {
-    "context": "../docker",
+    "context": "..",
     "dockerfile": "../docker/Dockerfile"
   },
   "workspaceFolder": "/home/rclgd/rclgd_ws",

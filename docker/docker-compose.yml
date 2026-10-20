@@ -3,8 +3,8 @@ services:
   rclgd_ws:
     container_name: rclgd_ws
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: docker/Dockerfile
     
     tty: true
     stdin_open: true
