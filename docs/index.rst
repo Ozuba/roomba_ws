@@ -21,7 +21,8 @@ everything a real robot base does:
 * publishes ``/odom`` and a proper TF tree (``map → odom → base_link → sensors``)
 * streams a 2D lidar, an IMU and a front camera
 * reports its bumper and draws itself and the whole house in RViz
-* offers ``dock`` and ``reset_odometry`` services and takes live parameters
+* offers ``dock`` and ``reset_odometry`` services, takes live parameters and runs a
+  ``rotate_absolute`` action
 
 .. image:: _static/images/rviz_full.png
    :alt: RViz showing the house, the robot, its laser scan, odometry and camera image
@@ -94,7 +95,11 @@ Agenda
      - Services, threading, parameters
      - :core:`core`
    * - 1:20
-     - :doc:`tutorial/07_next_steps`
+     - :doc:`tutorial/07_action`
+     - Action servers with ``await``
+     - :stretch:`stretch`
+   * - 1:25
+     - :doc:`tutorial/08_next_steps`
      - Close the loop from Python
      -
 
@@ -113,4 +118,5 @@ rclgd, and a **Check it** section with ``ros2`` commands that prove it works bef
    tutorial/04_sensors
    tutorial/05_rviz
    tutorial/06_services_params
-   tutorial/07_next_steps
+   tutorial/07_action
+   tutorial/08_next_steps

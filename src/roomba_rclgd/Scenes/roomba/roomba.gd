@@ -57,6 +57,9 @@ var _marker_msg := RosVisualizationMsgsMarker.new()
 var _dock_srv: RosService
 var _reset_odom_srv: RosService
 var _dock_pose: Transform3D # Read on the main thread; service callbacks must not touch nodes
+# Step 7: action
+var _rotate_server: RosActionServer
+var _rotate_goal: RosServerGoalHandle # Goal steering the robot (null = none); /cmd_vel is ignored meanwhile
 
 
 ## Sets the commanded speeds: linear in m/s (forward), angular in rad/s (counterclockwise
@@ -86,12 +89,15 @@ func _ready() -> void:
 	_setup_status()
 	_setup_services()
 	_setup_parameters()
+	_setup_actions()
 
 
 # --- Step 2: /cmd_vel --------------------------------------------------------------------------
 
 ## Topic callbacks run on Godot's main thread, so the scene can be touched directly
 func _on_cmd_vel(msg: RosMsg) -> void:
+	if _rotate_goal:
+		return
 	_last_cmd_time = _now_s()
 	drive(msg.linear.x, msg.angular.z)
 
@@ -117,7 +123,7 @@ func _reset_odometry() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if _now_s() - _last_cmd_time > cmd_vel_timeout:
+	if not _rotate_goal and _now_s() - _last_cmd_time > cmd_vel_timeout:
 		stop()
 	_publish_odometry()
 
@@ -145,6 +151,11 @@ func _publish_odometry() -> void:
 
 	# The same pose as TF; the broadcaster converts the Godot transform to ROS axes itself
 	_tf.send_transform(pose, "base_link", "odom")
+
+
+## Heading in the odom frame (rad, counterclockwise). Godot's yaw about +Y is ROS's yaw about +Z.
+func _odom_yaw() -> float:
+	return (_odom_origin.affine_inverse() * global_transform).basis.get_euler().y
 
 
 # --- Step 5: bumper and RViz marker ----------------------------------------------------------------
@@ -219,6 +230,50 @@ func _on_parameter_changed(param_name: String, value: Variant) -> void:
 			max_linear_speed = value
 		"max_angular_speed":
 			max_angular_speed = value
+
+
+# --- Step 7: action ------------------------------------------------------------------------------
+
+func _setup_actions() -> void:
+	_rotate_server = _node.create_action_server("~/rotate_absolute",
+			"turtlesim/action/RotateAbsolute", _execute_rotate)
+
+
+## Turns in place to an absolute heading in the odom frame. The execute callback runs on the
+## main thread, so it advances one physics frame at a time with await instead of blocking.
+func _execute_rotate(goal: RosServerGoalHandle) -> void:
+	_rotate_goal = goal # A newer goal takes over from one still running (see the loop below)
+	var target: float = goal.get_goal().theta
+	var start := _odom_yaw()
+	var feedback := goal.create_feedback()
+	var result := goal.create_result()
+	while true:
+		result.delta = wrapf(_odom_yaw() - start, -PI, PI)
+		if _rotate_goal != goal: # Preempted by a newer goal
+			goal.abort(result)
+			return
+		if goal.is_cancel_requested():
+			_finish_rotation()
+			goal.canceled(result)
+			return
+		var error := wrapf(target - _odom_yaw(), -PI, PI)
+		if absf(error) < 0.01:
+			break
+		# Proportional turn, with a floor so it doesn't crawl the last few degrees
+		var turn := clampf(4.0 * error, -max_angular_speed, max_angular_speed)
+		drive(0.0, signf(turn) * maxf(absf(turn), 0.15))
+		feedback.remaining = error
+		goal.publish_feedback(feedback)
+		await get_tree().physics_frame
+
+	_finish_rotation()
+	result.delta = wrapf(_odom_yaw() - start, -PI, PI)
+	goal.succeed(result)
+
+
+func _finish_rotation() -> void:
+	stop()
+	_rotate_goal = null
 
 
 # --- Physics (unchanged from the starter) -----------------------------------------------------------

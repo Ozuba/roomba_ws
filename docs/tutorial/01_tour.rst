@@ -32,6 +32,7 @@ The manifest is what makes this a ROS package:
    <exec_depend>std_msgs</exec_depend>
    <exec_depend>std_srvs</exec_depend>
    <exec_depend>visualization_msgs</exec_depend>
+   <exec_depend>turtlesim</exec_depend>
 
    <export>
      <build_type>rclgd</build_type>

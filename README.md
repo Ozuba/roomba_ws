@@ -3,7 +3,7 @@
 A 90-minute, hands-on workshop on building ROS 2 robot simulators in Godot with
 [rclgd](https://github.com/Ozuba/rclgd). You start from a furnished flat and a vacuum robot that
 only knows Godot physics, and you connect it to ROS 2 step by step: `/cmd_vel`, odometry and
-TF, a lidar, IMU and camera, RViz markers, services and parameters.
+TF, a lidar, IMU and camera, RViz markers, services, parameters and an action server.
 
 ![The finished Roomba in the flat](docs/_static/images/hero_overview.png)
 
