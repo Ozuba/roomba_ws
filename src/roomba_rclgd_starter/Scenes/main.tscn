@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scenes/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://Scenes/house/house.tscn" id="2_house"]
+[ext_resource type="PackedScene" path="res://Scenes/roomba/roomba.tscn" id="3_roomba"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_main")
+
+[node name="House" parent="." instance=ExtResource("2_house")]
+
+[node name="Roomba" parent="." instance=ExtResource("3_roomba")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 0.39, 0, 3.05)
+
+[node name="Camera" type="Camera3D" parent="."]
+current = true
+
+[node name="Hud" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="Hud"]
+offset_left = 12.0
+offset_top = 10.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 15

@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://c3grqouo14l6u"
+path="res://.godot/imported/LidarStitch.glsl-18cd6730b447d12d55758892eb67c8ed.res"
+
+[deps]
+
+source_file="res://addons/rclgd-sensors/ros_lidar/LidarStitch.glsl"
+dest_files=["res://.godot/imported/LidarStitch.glsl-18cd6730b447d12d55758892eb67c8ed.res"]
+
+[params]
+

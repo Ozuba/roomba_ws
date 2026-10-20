@@ -1,0 +1,47 @@
+{
+  "name": "rclgd Development Workspace",
+  "build": {
+    "context": "../docker",
+    "dockerfile": "../docker/Dockerfile"
+  },
+  "workspaceFolder": "/home/rclgd/rclgd_ws",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/rclgd/rclgd_ws,type=bind",
+  
+  "remoteUser": "rclgd",
+  "updateRemoteUserUID": false,
+  "initializeCommand": "xhost +local:docker && xhost +local:root",
+  
+  "runArgs": [
+    "--privileged",
+    "--network=host",
+    "--ipc=host",
+    "--group-add=44",
+    "--group-add=992"
+  ],
+  
+  "containerEnv": {
+    "DISPLAY": "${localEnv:DISPLAY}",
+    "QT_X11_NO_MITSHM": "1"
+  },
+  
+  "mounts": [
+    "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
+    "source=/usr/share/vulkan/icd.d,target=/usr/share/vulkan/icd.d,type=bind,readonly",
+    "source=/dev,target=/dev,type=bind",
+    "source=/tmp,target=/tmp,type=bind"
+  ],
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Ranch-Hand-Robotics.rde-ros-2",
+        "ms-python.python",
+        "ms-vscode.cpptools-extension-pack"
+      ],
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/zsh",
+        "ROS2.distro": "jazzy"
+      }
+    }
+  }
+}

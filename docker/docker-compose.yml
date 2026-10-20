@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  rclgd_ws:
+    container_name: rclgd_ws
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    tty: true
+    stdin_open: true
+    privileged: true
+    network_mode: host
+    ipc: host
+    group_add:
+      - "44"
+      - "992"
+      
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+
+    volumes:
+      - ..:/home/rclgd/rclgd_ws:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /usr/share/vulkan/icd.d:/usr/share/vulkan/icd.d:ro
+      - /dev:/dev
+      - /tmp:/tmp:rw
+
+    command: sleep infinity

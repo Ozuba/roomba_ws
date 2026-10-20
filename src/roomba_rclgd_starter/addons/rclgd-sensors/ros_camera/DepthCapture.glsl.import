@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://b8p52gekkrp3h"
+path="res://.godot/imported/DepthCapture.glsl-d61d87d1fc0e655d55eeda7b82d3d954.res"
+
+[deps]
+
+source_file="res://addons/rclgd-sensors/ros_camera/DepthCapture.glsl"
+dest_files=["res://.godot/imported/DepthCapture.glsl-d61d87d1fc0e655d55eeda7b82d3d954.res"]
+
+[params]
+

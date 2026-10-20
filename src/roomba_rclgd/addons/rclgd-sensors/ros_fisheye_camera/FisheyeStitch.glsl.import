@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://bvxtsw1e8csac"
+path="res://.godot/imported/FisheyeStitch.glsl-e645471018108924fff954f94948c107.res"
+
+[deps]
+
+source_file="res://addons/rclgd-sensors/ros_fisheye_camera/FisheyeStitch.glsl"
+dest_files=["res://.godot/imported/FisheyeStitch.glsl-e645471018108924fff954f94948c107.res"]
+
+[params]
+

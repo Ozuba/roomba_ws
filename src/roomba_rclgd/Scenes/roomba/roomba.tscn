@@ -1,0 +1,184 @@
+[gd_scene format=3 uid="uid://dodghcgb4jk1l"]
+
+[ext_resource type="Script" uid="uid://b7vkouenom1lw" path="res://Scenes/roomba/roomba.gd" id="1_roomba"]
+[ext_resource type="Script" uid="uid://n78uknmd8jwe" path="res://addons/rclgd-sensors/ros_lidar_2d/ros_lidar_2d.gd" id="2_lidar"]
+[ext_resource type="Script" uid="uid://bsmemyc0nuhy2" path="res://addons/rclgd-sensors/ros_imu/ros_imu.gd" id="3_imu"]
+[ext_resource type="Script" uid="uid://ds4q43s0n1ft7" path="res://addons/rclgd-sensors/ros_camera/ros_camera.gd" id="4_camera"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_slide"]
+friction = 0.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_body"]
+height = 0.07
+radius = 0.17
+
+[sub_resource type="StandardMaterial3D" id="Mat_charcoal"]
+albedo_color = Color(0.11, 0.11, 0.12, 1)
+metallic = 0.2
+roughness = 0.45
+
+[sub_resource type="CylinderMesh" id="Mesh_body"]
+material = SubResource("Mat_charcoal")
+top_radius = 0.165
+bottom_radius = 0.165
+height = 0.065
+radial_segments = 48
+
+[sub_resource type="StandardMaterial3D" id="Mat_bumper"]
+albedo_color = Color(0.3, 0.31, 0.33, 1)
+roughness = 0.7
+
+[sub_resource type="CylinderMesh" id="Mesh_bumper"]
+material = SubResource("Mat_bumper")
+top_radius = 0.171
+bottom_radius = 0.171
+height = 0.035
+radial_segments = 48
+
+[sub_resource type="StandardMaterial3D" id="Mat_graphite"]
+albedo_color = Color(0.05, 0.05, 0.06, 1)
+metallic = 0.3
+roughness = 0.15
+
+[sub_resource type="CylinderMesh" id="Mesh_top"]
+material = SubResource("Mat_graphite")
+top_radius = 0.152
+bottom_radius = 0.152
+height = 0.008
+radial_segments = 48
+
+[sub_resource type="StandardMaterial3D" id="Mat_silver"]
+albedo_color = Color(0.78, 0.79, 0.82, 1)
+metallic = 0.9
+roughness = 0.25
+
+[sub_resource type="TorusMesh" id="Mesh_ring"]
+material = SubResource("Mat_silver")
+inner_radius = 0.148
+outer_radius = 0.156
+rings = 48
+
+[sub_resource type="CylinderMesh" id="Mesh_turret"]
+material = SubResource("Mat_charcoal")
+top_radius = 0.042
+bottom_radius = 0.042
+height = 0.025
+
+[sub_resource type="CylinderMesh" id="Mesh_turret_cap"]
+material = SubResource("Mat_silver")
+top_radius = 0.046
+bottom_radius = 0.046
+height = 0.006
+
+[sub_resource type="CylinderMesh" id="Mesh_button"]
+material = SubResource("Mat_silver")
+top_radius = 0.028
+bottom_radius = 0.028
+height = 0.004
+
+[sub_resource type="StandardMaterial3D" id="Mat_led"]
+resource_local_to_scene = true
+albedo_color = Color(0.2, 1, 0.45, 1)
+emission_enabled = true
+emission = Color(0.2, 1, 0.45, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="SphereMesh" id="Mesh_led"]
+radius = 0.008
+height = 0.016
+
+[sub_resource type="BoxMesh" id="Mesh_window"]
+material = SubResource("Mat_graphite")
+size = Vector3(0.07, 0.018, 0.006)
+
+[sub_resource type="StandardMaterial3D" id="Mat_bristle"]
+albedo_color = Color(0.85, 0.2, 0.15, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="Mesh_bristle"]
+material = SubResource("Mat_bristle")
+size = Vector3(0.1, 0.003, 0.006)
+
+[node name="Roomba" type="RigidBody3D" unique_id=435405399]
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+mass = 3.6
+physics_material_override = SubResource("PhysicsMaterial_slide")
+can_sleep = false
+contact_monitor = true
+max_contacts_reported = 8
+script = ExtResource("1_roomba")
+
+[node name="Collision" type="CollisionShape3D" parent="." unique_id=1062275299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.035, 0)
+shape = SubResource("CylinderShape3D_body")
+
+[node name="Visuals" type="Node3D" parent="." unique_id=438844424]
+
+[node name="Body" type="MeshInstance3D" parent="Visuals" unique_id=47786226]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.045, 0)
+mesh = SubResource("Mesh_body")
+
+[node name="Bumper" type="MeshInstance3D" parent="Visuals" unique_id=1990132324]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.035, 0)
+mesh = SubResource("Mesh_bumper")
+
+[node name="TopPlate" type="MeshInstance3D" parent="Visuals" unique_id=1834459348]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.081, 0)
+mesh = SubResource("Mesh_top")
+
+[node name="Ring" type="MeshInstance3D" parent="Visuals" unique_id=535440241]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.083, 0)
+mesh = SubResource("Mesh_ring")
+
+[node name="Turret" type="MeshInstance3D" parent="Visuals" unique_id=102706415]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0975, 0.035)
+mesh = SubResource("Mesh_turret")
+
+[node name="TurretCap" type="MeshInstance3D" parent="Visuals" unique_id=1878746432]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.113, 0.035)
+mesh = SubResource("Mesh_turret_cap")
+
+[node name="Button" type="MeshInstance3D" parent="Visuals" unique_id=1375605050]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.087, -0.06)
+mesh = SubResource("Mesh_button")
+
+[node name="Led" type="MeshInstance3D" parent="Visuals" unique_id=94876315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.087, -0.105)
+material_override = SubResource("Mat_led")
+mesh = SubResource("Mesh_led")
+
+[node name="CameraWindow" type="MeshInstance3D" parent="Visuals" unique_id=353039233]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.055, -0.168)
+mesh = SubResource("Mesh_window")
+
+[node name="SideBrush" type="Node3D" parent="Visuals" unique_id=1711949778]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.105, 0.006, -0.105)
+
+[node name="Bristle0" type="MeshInstance3D" parent="Visuals/SideBrush" unique_id=871979011]
+mesh = SubResource("Mesh_bristle")
+
+[node name="Bristle1" type="MeshInstance3D" parent="Visuals/SideBrush" unique_id=1202455845]
+transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 0, 0, 0)
+mesh = SubResource("Mesh_bristle")
+
+[node name="Bristle2" type="MeshInstance3D" parent="Visuals/SideBrush" unique_id=1113177135]
+transform = Transform3D(-0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, 0, 0, 0)
+mesh = SubResource("Mesh_bristle")
+
+[node name="Lidar" type="Node3D" parent="." unique_id=379304915]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.105, 0.035)
+script = ExtResource("2_lidar")
+range_max = 8.0
+publish_rate = 10.0
+
+[node name="Imu" type="Node3D" parent="." unique_id=585445177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+script = ExtResource("3_imu")
+publish_rate = 30.0
+
+[node name="Camera" type="Node3D" parent="." unique_id=719082082]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.055, -0.172)
+script = ExtResource("4_camera")
+fov = 90.0
+near = 0.02

@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://desw0xkkmvxm5"
+path="res://.godot/imported/LidarFaceCapture.glsl-c6c5b22e0b60963db47e5ab0e38cabdd.res"
+
+[deps]
+
+source_file="res://addons/rclgd-sensors/ros_lidar/LidarFaceCapture.glsl"
+dest_files=["res://.godot/imported/LidarFaceCapture.glsl-c6c5b22e0b60963db47e5ab0e38cabdd.res"]
+
+[params]
+

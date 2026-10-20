@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>roomba_rclgd</name>
+  <version>0.1.0</version>
+  <description>rclgd workshop, finished: a ROS 2 Roomba simulated in Godot (cmd_vel, odom, TF, sensors, services, parameters, actions)</description>
+  <maintainer email="miguelozubas@gmail.com">Miguel Oroz Zubasti</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>rclgd</buildtool_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+  <exec_depend>visualization_msgs</exec_depend>
+  <exec_depend>turtlesim</exec_depend>
+
+  <export>
+    <build_type>rclgd</build_type>
+  </export>
+</package>
