@@ -23,34 +23,34 @@ Call ``_setup_status()`` from ``_ready()``, after ``_setup_odometry()``, and add
 .. code-block:: gdscript
 
    func _setup_status() -> void:
-   	_bumper_pub = _node.create_publisher("/bumper", "std_msgs/msg/Bool")
-   	_marker_pub = _node.create_publisher("~/marker", "visualization_msgs/msg/Marker")
+       _bumper_pub = _node.create_publisher("/bumper", "std_msgs/msg/Bool")
+       _marker_pub = _node.create_publisher("~/marker", "visualization_msgs/msg/Marker")
 
-   	_marker_msg.header.frame_id = "base_link"
-   	_marker_msg.ns = "roomba"
-   	_marker_msg.type = 3 # CYLINDER
-   	_marker_msg.pose.position.z = 0.045
-   	_marker_msg.pose.orientation.w = 1.0
-   	_marker_msg.scale.x = 0.34
-   	_marker_msg.scale.y = 0.34
-   	_marker_msg.scale.z = 0.07
-   	_marker_msg.color.a = 1.0
+       _marker_msg.header.frame_id = "base_link"
+       _marker_msg.ns = "roomba"
+       _marker_msg.type = 3 # CYLINDER
+       _marker_msg.pose.position.z = 0.045
+       _marker_msg.pose.orientation.w = 1.0
+       _marker_msg.scale.x = 0.34
+       _marker_msg.scale.y = 0.34
+       _marker_msg.scale.z = 0.07
+       _marker_msg.color.a = 1.0
 
-   	# Publish on every bumper change (a Godot signal) and at 10 Hz (a ROS timer)
-   	bumper_changed.connect(func(_pressed: bool) -> void: _publish_status())
-   	_status_timer = _node.create_timer(0.1, _publish_status)
+       # Publish on every bumper change (a Godot signal) and at 10 Hz (a ROS timer)
+       bumper_changed.connect(func(_pressed: bool) -> void: _publish_status())
+       _status_timer = _node.create_timer(0.1, _publish_status)
 
 
    func _publish_status() -> void:
-   	_bumper_msg.data = bumper_pressed
-   	_bumper_pub.publish(_bumper_msg)
+       _bumper_msg.data = bumper_pressed
+       _bumper_pub.publish(_bumper_msg)
 
-   	_marker_msg.header.stamp = _node.now()
-   	var color := Color(0.9, 0.2, 0.15) if bumper_pressed else Color(0.25, 0.27, 0.3)
-   	_marker_msg.color.r = color.r
-   	_marker_msg.color.g = color.g
-   	_marker_msg.color.b = color.b
-   	_marker_pub.publish(_marker_msg)
+       _marker_msg.header.stamp = _node.now()
+       var color := Color(0.9, 0.2, 0.15) if bumper_pressed else Color(0.25, 0.27, 0.3)
+       _marker_msg.color.r = color.r
+       _marker_msg.color.g = color.g
+       _marker_msg.color.b = color.b
+       _marker_pub.publish(_marker_msg)
 
 How it works
 ^^^^^^^^^^^^

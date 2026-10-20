@@ -9,3 +9,6 @@
 /* Step badges in the agenda table */
 .rst-content .core { color: #1e7b3a; font-weight: 600; }
 .rst-content .stretch { color: #a35d00; font-weight: 600; }
+
+/* GDScript blocks are indented with real tabs (Godot's default); show them 4 wide */
+.rst-content pre { tab-size: 4; }

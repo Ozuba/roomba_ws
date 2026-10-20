@@ -93,9 +93,6 @@ What you used
    * - ``declare_parameter``, ``get_parameter``, ``parameter_changed``
      - parameters + ``add_on_set_parameters_callback``
      - :doc:`06_services_params`
-   * - ``create_action_server(name, type, execute)`` + ``await``
-     - ``rclcpp_action::create_server``
-     - :doc:`07_action`
 
 Ideas to keep going
 -------------------
@@ -112,8 +109,7 @@ standard differential-drive base, which is what Nav2's default controllers expec
 floor (a decal or a texture you paint into), and publish coverage as an ``OccupancyGrid``.
 
 **Call ROS from Godot.** rclgd has clients too: ``create_client`` and ``create_action_client``,
-with ``await``-able calls. Make a Godot UI button that calls ``/roomba/dock``, or that sends
-``rotate_absolute`` goals.
+with ``await``-able calls. Make a Godot UI button that calls ``/roomba/dock``.
 
 **Listen to TF.** ``create_tf_listener()`` and ``lookup_transform("map", "base_link")`` return
 a Godot ``Transform3D``. Use it to put a Godot object wherever an external node says the robot

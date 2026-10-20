@@ -9,7 +9,6 @@ The finished rclgd Roomba workshop robot, simulated in Godot and exposed to ROS 
 | `/lidar/scan`, `/imu/data`, `/camera/image_raw` | `sensor_msgs` (best effort) |
 | `/bumper`, `/roomba/marker`, `/house/markers` | `std_msgs/Bool`, `visualization_msgs` |
 | `/roomba/dock`, `/roomba/reset_odometry` | `std_srvs/Trigger`, `std_srvs/Empty` |
-| `/roomba/rotate_absolute` | `turtlesim/action/RotateAbsolute` |
 | `max_linear_speed`, `max_angular_speed` | parameters on `/roomba` |
 
 ```bash

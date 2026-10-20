@@ -36,3 +36,27 @@ html_theme_options = {
 # Don't copy shell prompts when using the copy button
 copybutton_prompt_text = r"\$ |>>> "
 copybutton_prompt_is_regexp = True
+
+
+# Godot scripts are indented with tabs, but reST expands tabs while parsing, so code copied
+# from the docs would mix spaces into tab-indented files. Turn each leading 4-space group of
+# the GDScript blocks back into a tab (the sources indent code with 4 spaces per level).
+def _gdscript_tabs(app, doctree):
+    import re
+    from docutils import nodes
+
+    for block in doctree.findall(nodes.literal_block):
+        if block.get("language", highlight_language) != "gdscript":
+            continue
+        code = re.sub(
+            r"^(?:    )+",
+            lambda m: "\t" * (len(m.group()) // 4),
+            block.astext(),
+            flags=re.MULTILINE,
+        )
+        block.rawsource = code
+        block[:] = [nodes.Text(code)]
+
+
+def setup(app):
+    app.connect("doctree-read", _gdscript_tabs)

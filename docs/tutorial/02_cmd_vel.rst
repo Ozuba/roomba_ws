@@ -32,10 +32,10 @@ done, I'm in the tree" callback. The starter doesn't have one yet:
 .. code-block:: gdscript
 
    func _ready() -> void:
-   	# Step 2: one RosNode per robot. The ROS autoload already initialized rclgd.
-   	_node = RosNode.new()
-   	_node.init("roomba")
-   	_cmd_vel_sub = _node.create_subscription("/cmd_vel", "geometry_msgs/msg/Twist", _on_cmd_vel)
+       # Step 2: one RosNode per robot. The ROS autoload already initialized rclgd.
+       _node = RosNode.new()
+       _node.init("roomba")
+       _cmd_vel_sub = _node.create_subscription("/cmd_vel", "geometry_msgs/msg/Twist", _on_cmd_vel)
 
 Then add the callback, plus a watchdog that stops the robot when commands stop arriving:
 
@@ -43,17 +43,17 @@ Then add the callback, plus a watchdog that stops the robot when commands stop a
 
    ## Topic callbacks run on Godot's main thread, so the scene can be touched directly
    func _on_cmd_vel(msg: RosMsg) -> void:
-   	_last_cmd_time = _now_s()
-   	drive(msg.linear.x, msg.angular.z)
+       _last_cmd_time = _now_s()
+       drive(msg.linear.x, msg.angular.z)
 
 
    func _now_s() -> float:
-   	return Time.get_ticks_msec() / 1000.0
+       return Time.get_ticks_msec() / 1000.0
 
 
    func _physics_process(_delta: float) -> void:
-   	if _now_s() - _last_cmd_time > cmd_vel_timeout:
-   		stop()
+       if _now_s() - _last_cmd_time > cmd_vel_timeout:
+           stop()
 
 That's the whole bridge: ROS ``linear.x`` and ``angular.z`` go straight into the Godot API.
 The robot's ``drive()`` already uses ROS conventions (forward positive, counterclockwise

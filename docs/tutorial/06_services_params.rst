@@ -38,21 +38,21 @@ Call ``_setup_services()`` from ``_ready()``, and add:
 .. code-block:: gdscript
 
    func _setup_services() -> void:
-   	_dock_pose = dock.global_transform if dock else global_transform
-   	_dock_srv = _node.create_service("~/dock", "std_srvs/srv/Trigger", _on_dock)
-   	_reset_odom_srv = _node.create_service("~/reset_odometry", "std_srvs/srv/Empty", _on_reset_odometry)
+       _dock_pose = dock.global_transform if dock else global_transform
+       _dock_srv = _node.create_service("~/dock", "std_srvs/srv/Trigger", _on_dock)
+       _reset_odom_srv = _node.create_service("~/reset_odometry", "std_srvs/srv/Empty", _on_reset_odometry)
 
 
    ## Service callbacks run on the ROS executor thread: fill the response here, but defer any
    ## change to the scene to the main thread.
    func _on_dock(_req: RosMsg, res: RosMsg) -> void:
-   	teleport.call_deferred(_dock_pose)
-   	res.success = true
-   	res.message = "Back on the dock"
+       teleport.call_deferred(_dock_pose)
+       res.success = true
+       res.message = "Back on the dock"
 
 
    func _on_reset_odometry(_req: RosMsg, _res: RosMsg) -> void:
-   	_reset_odometry.call_deferred()
+       _reset_odometry.call_deferred()
 
 The threading rule
 ^^^^^^^^^^^^^^^^^^
@@ -76,22 +76,22 @@ Parameters
 .. code-block:: gdscript
 
    func _setup_parameters() -> void:
-   	# The exported values are the defaults; -p overrides (command line or the ros/parameters
-   	# project settings) win, so read them back after declaring.
-   	_node.declare_parameter("max_linear_speed", max_linear_speed)
-   	_node.declare_parameter("max_angular_speed", max_angular_speed)
-   	max_linear_speed = _node.get_parameter("max_linear_speed")
-   	max_angular_speed = _node.get_parameter("max_angular_speed")
-   	_node.parameter_changed.connect(_on_parameter_changed)
+       # The exported values are the defaults; -p overrides (command line or the ros/parameters
+       # project settings) win, so read them back after declaring.
+       _node.declare_parameter("max_linear_speed", max_linear_speed)
+       _node.declare_parameter("max_angular_speed", max_angular_speed)
+       max_linear_speed = _node.get_parameter("max_linear_speed")
+       max_angular_speed = _node.get_parameter("max_angular_speed")
+       _node.parameter_changed.connect(_on_parameter_changed)
 
 
    ## Called for every `ros2 param set` on this node
    func _on_parameter_changed(param_name: String, value: Variant) -> void:
-   	match param_name:
-   		"max_linear_speed":
-   			max_linear_speed = value
-   		"max_angular_speed":
-   			max_angular_speed = value
+       match param_name:
+           "max_linear_speed":
+               max_linear_speed = value
+           "max_angular_speed":
+               max_angular_speed = value
 
 Call ``_setup_parameters()`` from ``_ready()``. Parameters are typed from their default: a
 ``float`` default declares a double parameter, an ``int`` an integer, and arrays

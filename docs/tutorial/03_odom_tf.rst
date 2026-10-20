@@ -46,24 +46,24 @@ In ``_ready()``, after creating the subscription:
 
 .. code-block:: gdscript
 
-   	_setup_odometry()
+       _setup_odometry()
 
 And the setup:
 
 .. code-block:: gdscript
 
    func _setup_odometry() -> void:
-   	_odom_pub = _node.create_publisher("/odom", "nav_msgs/msg/Odometry")
-   	_tf = _node.create_tf_broadcaster()
-   	_odom_msg.header.frame_id = "odom"
-   	_odom_msg.child_frame_id = "base_link"
-   	_reset_odometry()
+       _odom_pub = _node.create_publisher("/odom", "nav_msgs/msg/Odometry")
+       _tf = _node.create_tf_broadcaster()
+       _odom_msg.header.frame_id = "odom"
+       _odom_msg.child_frame_id = "base_link"
+       _reset_odometry()
 
 
    ## Starts the odom frame at the current pose. map -> odom is static: the house is the map.
    func _reset_odometry() -> void:
-   	_odom_origin = global_transform
-   	_tf.send_transform(_odom_origin, "odom", "map", true)
+       _odom_origin = global_transform
+       _tf.send_transform(_odom_origin, "odom", "map", true)
 
 Publish every physics step
 --------------------------
@@ -74,37 +74,37 @@ step 2:
 .. code-block:: gdscript
 
    func _physics_process(_delta: float) -> void:
-   	if _now_s() - _last_cmd_time > cmd_vel_timeout:
-   		stop()
-   	_publish_odometry()
+       if _now_s() - _last_cmd_time > cmd_vel_timeout:
+           stop()
+       _publish_odometry()
 
 And the publisher itself:
 
 .. code-block:: gdscript
 
    func _publish_odometry() -> void:
-   	# Pose of the robot in the odom frame, still in Godot axes
-   	var pose := _odom_origin.affine_inverse() * global_transform
+       # Pose of the robot in the odom frame, still in Godot axes
+       var pose := _odom_origin.affine_inverse() * global_transform
 
-   	_odom_msg.header.stamp = _node.now()
-   	var p := rclgd.godot_to_ros_vector(pose.origin)
-   	_odom_msg.pose.pose.position.x = p.x
-   	_odom_msg.pose.pose.position.y = p.y
-   	_odom_msg.pose.pose.position.z = p.z
-   	var q := rclgd.godot_to_ros_quat(pose.basis.get_rotation_quaternion())
-   	_odom_msg.pose.pose.orientation.x = q.x
-   	_odom_msg.pose.pose.orientation.y = q.y
-   	_odom_msg.pose.pose.orientation.z = q.z
-   	_odom_msg.pose.pose.orientation.w = q.w
-   	# Twist is expressed in the robot's own frame (child_frame_id)
-   	var v := rclgd.godot_to_ros_vector(global_basis.inverse() * linear_velocity)
-   	_odom_msg.twist.twist.linear.x = v.x
-   	_odom_msg.twist.twist.linear.y = v.y
-   	_odom_msg.twist.twist.angular.z = angular_velocity.y
-   	_odom_pub.publish(_odom_msg)
+       _odom_msg.header.stamp = _node.now()
+       var p := rclgd.godot_to_ros_vector(pose.origin)
+       _odom_msg.pose.pose.position.x = p.x
+       _odom_msg.pose.pose.position.y = p.y
+       _odom_msg.pose.pose.position.z = p.z
+       var q := rclgd.godot_to_ros_quat(pose.basis.get_rotation_quaternion())
+       _odom_msg.pose.pose.orientation.x = q.x
+       _odom_msg.pose.pose.orientation.y = q.y
+       _odom_msg.pose.pose.orientation.z = q.z
+       _odom_msg.pose.pose.orientation.w = q.w
+       # Twist is expressed in the robot's own frame (child_frame_id)
+       var v := rclgd.godot_to_ros_vector(global_basis.inverse() * linear_velocity)
+       _odom_msg.twist.twist.linear.x = v.x
+       _odom_msg.twist.twist.linear.y = v.y
+       _odom_msg.twist.twist.angular.z = angular_velocity.y
+       _odom_pub.publish(_odom_msg)
 
-   	# The same pose as TF; the broadcaster converts the Godot transform to ROS axes itself
-   	_tf.send_transform(pose, "base_link", "odom")
+       # The same pose as TF; the broadcaster converts the Godot transform to ROS axes itself
+       _tf.send_transform(pose, "base_link", "odom")
 
 How it works
 ------------
