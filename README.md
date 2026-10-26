@@ -11,6 +11,7 @@ TF, a lidar, IMU and camera, RViz markers, services, parameters and an action se
 |---|---|
 | `src/roomba_rclgd_starter` | Where attendees start: world, robot physics, addons, RViz config, **no ROS code** |
 | `src/roomba_rclgd` | The finished result, with every tutorial step applied |
+| `src/roomba_hmi` | Extra section, finished: a simple HMI built in the Godot editor (built from scratch, no starter) |
 | `docs/` | The tutorial (Sphinx, published on Read the Docs) |
 | `docker/`, `.devcontainer/` | The workshop container: Ubuntu 24.04, ROS 2 Jazzy, rclgd |
 
@@ -20,12 +21,13 @@ Inside the container (VS Code: *Dev Containers: Reopen in Container*):
 
 ```bash
 cd ~/rclgd_ws
-colcon build --packages-select roomba_rclgd_starter roomba_rclgd
+colcon build --packages-select roomba_rclgd_starter roomba_rclgd roomba_hmi
 source install/setup.zsh
 
 ros2 run roomba_rclgd roomba_rclgd                          # the finished robot
 python3 src/roomba_rclgd/scripts/bump_and_turn.py           # let it wander
 rviz2 -d src/roomba_rclgd/rviz/roomba.rviz                  # and watch it in RViz
+ros2 run roomba_hmi roomba_hmi                              # or drive it from the HMI
 
 ros2 rclgd editor roomba_rclgd_starter                      # start the workshop
 ```

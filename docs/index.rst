@@ -4,6 +4,9 @@
 .. role:: stretch
    :class: stretch
 
+.. role:: extra
+   :class: extra
+
 Roomba in a House: an rclgd workshop
 ====================================
 
@@ -47,6 +50,11 @@ What's in the repository
 ``src/roomba_rclgd``
    **The finished result.** It's the same project with every step of this tutorial applied.
    Use it to peek when you're stuck, or run it to see where you're heading.
+
+``src/roomba_hmi``
+   **The finished extra section:** a simple HMI (camera view, drive arrows, Dock button) built
+   in the Godot editor. There's no starter for it: you create it from scratch in
+   :doc:`tutorial/09_hmi`.
 
 ``docs/``
    This tutorial.
@@ -102,6 +110,10 @@ Agenda
      - :doc:`tutorial/08_next_steps`
      - Close the loop from Python
      -
+   * - after
+     - :doc:`tutorial/09_hmi` (about 30 minutes)
+     - Service clients, Godot UI editor
+     - :extra:`extra`
 
 Each step follows the same pattern: what you'll add, the code, why it works that way in
 rclgd, and a **Check it** section with ``ros2`` commands that prove it works before you move on.
@@ -120,3 +132,9 @@ rclgd, and a **Check it** section with ``ros2`` commands that prove it works bef
    tutorial/06_services_params
    tutorial/07_action
    tutorial/08_next_steps
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Extra
+
+   tutorial/09_hmi

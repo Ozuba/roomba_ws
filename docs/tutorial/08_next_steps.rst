@@ -96,6 +96,9 @@ What you used
    * - ``create_action_server(name, type, execute)`` + ``await``
      - ``rclcpp_action::create_server``
      - :doc:`07_action`
+   * - ``create_client`` + ``await async_send_request(req).completed``
+     - ``create_client`` + ``async_send_request``
+     - :doc:`09_hmi`
 
 Ideas to keep going
 -------------------
@@ -112,8 +115,9 @@ standard differential-drive base, which is what Nav2's default controllers expec
 floor (a decal or a texture you paint into), and publish coverage as an ``OccupancyGrid``.
 
 **Call ROS from Godot.** rclgd has clients too: ``create_client`` and ``create_action_client``,
-with ``await``-able calls. Make a Godot UI button that calls ``/roomba/dock``, or that sends
-``rotate_absolute`` goals.
+with ``await``-able calls. The extra section, :doc:`09_hmi`, builds a control panel in the
+Godot editor with a *Dock* button that calls ``/roomba/dock``. Sending ``rotate_absolute``
+goals from a button is a good next exercise.
 
 **Listen to TF.** ``create_tf_listener()`` and ``lookup_transform("map", "base_link")`` return
 a Godot ``Transform3D``. Use it to put a Godot object wherever an external node says the robot

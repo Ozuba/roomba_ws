@@ -1,0 +1,32 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="roomba_hmi"
+config/description="rclgd workshop extra: a simple Godot HMI to drive and dock the Roomba"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.7", "4.7.1", "GL Compatibility")
+
+[autoload]
+
+ROS="*res://addons/rclgd/ros_init.gd"
+
+[display]
+
+window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/rclgd/plugin.cfg")
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
